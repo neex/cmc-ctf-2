@@ -43,7 +43,16 @@ recv()
 recv()
 recv()
 
-def no_semicolons(suf, sec):
+def no_semicolons_full(suf, sec):
+    global ch
+    for i in xrange(0, 10):
+        send(chr(i)+suf+sec)
+        r = recv()
+        if len(r) > 100:
+            return False
+    return True
+
+def no_semicolons_sec(suf, sec):
     global ch
     for i in xrange(0, 10):
         send(chr(i)+suf+sec)
@@ -52,18 +61,20 @@ def no_semicolons(suf, sec):
             return True
     return False
             
+print "Finding two blocks without semicolons at all"            
 while True:
     suf = os.urandom(15)
     sec = os.urandom(16)
-    if no_semicolons(suf, sec):
+    if no_semicolons_full(suf, sec):
         break
+print "Done"
         
 deltas = []
 for i in xrange(7):
     print "Bruting character",i
     for ch in xrange(256):
        sn = suf[:i] + chr(ord(suf[i]) ^ ch) + suf[i+1:]
-       if not no_semicolons(sn, sec):
+       if not no_semicolons_sec(sn, sec):
             deltas.append(ch)
             print "Found"
             break

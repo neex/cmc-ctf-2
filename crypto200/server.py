@@ -42,4 +42,5 @@ if __name__ == "__main__":
         SocketServer.ThreadingTCPServer.allow_reuse_address = True
         server = SocketServer.ThreadingTCPServer((HOST, PORT), Handler)
         server.allow_reuse_address = True    
+        server.daemon_threads = True                
         server.serve_forever()
