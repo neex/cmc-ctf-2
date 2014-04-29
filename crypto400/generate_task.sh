@@ -22,8 +22,6 @@ echo "Preparing crypted files..."
 
 (cat text.txt; echo -n $REPL; for i in `seq $(( ${#FLAG} - 1 - ${#REPL}))`; do echo -n .;done; echo -n ">"; echo ) > plain.txt
 
-rm -rf text
-
 echo "Compiling solution..."
 
 if ! gcc solution.c -o solution; then 
