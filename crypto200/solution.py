@@ -11,7 +11,6 @@ for i in xrange(10):
         if sum(d[::2])==sum(d[1::2]) and sum(d[:len(d)/2])==sum(d[len(d)/2:]):
             curhash = h
             strs.append(s)
-            print s
             break
        
 print "".join(map("".join, zip(*strs)))    

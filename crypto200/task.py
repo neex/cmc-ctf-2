@@ -1,10 +1,15 @@
 import hashlib
 import SocketServer
+import logging
+from logcompress import logsetup
 
 HOST = "0.0.0.0"
 PORT = 8475
 
+logger = logging.getLogger(__name__)
+
 def is_lucky(name):  # You must be very lucky if you can pass this
+    logger.debug("Cheching %s",name)
     h = hashlib.sha1()
     for i in xrange(10):
         h.update(name[i::10])
@@ -16,18 +21,22 @@ def is_lucky(name):  # You must be very lucky if you can pass this
 
 class Handler(SocketServer.BaseRequestHandler):
     def handle(self):
-        self.stream = self.request.makefile('r+', bufsize=0)
-        self.stream.write("Enter your name: ")
-        name = self.stream.readline().strip()
-        if is_lucky(name):
-            self.stream.write("Seems like you are lucky enough!\nFlag is {0}\n".format(flag))
-        else:
-            self.stream.write("Sorry, we don't need unlucky ones in our team\n")
-        self.stream.close()
-        self.stream = None
+        try:
+            stream = self.request.makefile('r+', bufsize=0)
+            stream.write("Enter your name: ")
+            name = stream.readline().strip()
+            if is_lucky(name):
+                stream.write("Seems like you are lucky enough!\nFlag is {0}\n".format(flag))
+            else:
+                stream.write("Sorry, we don't need losers in our team\n")
+        except Exception as e:
+            logger.exception()
+        finally:
+            stream.close()
 
         
-if __name__ == "__main__":            
+if __name__ == "__main__":   
+        logsetup("lucky.log", "DEBUG")        
         with open("flag.txt") as f:
             flag = f.read().strip()
         SocketServer.ThreadingTCPServer.allow_reuse_address = True

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FLAG="MSUCTF__Seems_Like_This_Stream_Is_Hacked" 
+FLAG="MSUCTF__SEEMS_LIKE_THIS_STREAM_IS_HACKED" 
 REPL="<flag output was suppressed"
 
 if [ ${#FLAG}  <  $(( 1 + ${#REPL} )) ]; then
