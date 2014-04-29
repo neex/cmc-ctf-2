@@ -10,14 +10,14 @@ users = {"guest":
         }
     
 def send(s):
-    global encrypted_mode, stream
+    global encrypted_mode, stream, client_aes
     if encrypted_mode:
         s += " " * ((-len(s)) % 16)
         s = client_aes.encrypt(s)
     stream.write(s.encode("base64").replace("\n", "") + "\n")
       
 def recv():
-    global encrypted_mode, stream, running
+    global encrypted_mode, stream, running, server_aes
     s = stream.readline()
     if not s:
         print "disconnect"        
