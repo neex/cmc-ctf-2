@@ -119,7 +119,7 @@ int gamma_len;
 
 int main() {
     read_file("encrypted_data.bin", &encrypted, &encrypted_len);
-    read_file("data.bin", &plain, &plain_len);
+    read_file("plain.txt", &plain, &plain_len);
     int i, j;
     gamma = (uint32_t*) malloc(plain_len);
     decrypted_gamma = (uint32_t*) malloc(plain_len);    
@@ -180,8 +180,7 @@ int main() {
     }       
     fprintf(stderr, "Not solved!!!!\n");
     return 0;
-found: 
-    fprintf(stderr, "Found the key!\n");    
+found:   
     init_cipher(c, a, b);
     for (i = 0; i < encrypted_len; ++i) {
         putchar(encrypted[i] ^ get_next_gamma());

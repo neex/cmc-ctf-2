@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FLAG="MSUCTF__SEEMS_LIKE_THIS_STREAM_IS_HACKED" 
+FLAG="MSUCTF__SEEMS_LIKE_THIS_STREAM_CIPHER_WAS_HACKED" 
 REPL="<flag output was suppressed"
 
 if [ ${#FLAG}  <  $(( 1 + ${#REPL} )) ]; then
@@ -17,14 +17,12 @@ fi
 
 echo "Preparing crypted files..."
 
-dd if=/dev/urandom of=prefix bs=50 count=1 2> /dev/null
-dd if=/dev/urandom of=suffix bs=50 count=1 2> /dev/null 
 
-(cat prefix; echo -n $FLAG; cat suffix) | ./stream > encrypted_data.bin
+(cat text.txt; echo -n $FLAG; echo) | ./stream > encrypted_data.bin
 
-(cat prefix; echo -n $REPL; for i in `seq $(( ${#FLAG} - 1 - ${#REPL}))`; do echo -n .;done; echo -n ">"; cat suffix ) > data.bin
+(cat text.txt; echo -n $REPL; for i in `seq $(( ${#FLAG} - 1 - ${#REPL}))`; do echo -n .;done; echo -n ">"; echo ) > plain.txt
 
-rm -rf prefix suffix
+rm -rf text
 
 echo "Compiling solution..."
 
