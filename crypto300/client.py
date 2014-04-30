@@ -1,7 +1,13 @@
 import os
-from Crypto.Cipher import AES
 from socket import socket
 
+
+try:
+    from Crypto.Cipher import AES
+except ImportError:
+    print "You need to install pycrypto"
+    raise SystemExit(1)
+    
 PORT = 8765
 
 users = {"guest": 
@@ -35,7 +41,7 @@ def recv():
     return s       
 
 if len(os.sys.argv) != 3:
-    print "Usage: client.py <username> <server>"
+    print "Usage: client.py <server> <username>"
     raise SystemExit()
     
 user = os.sys.argv[2]
